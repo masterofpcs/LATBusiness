@@ -41,8 +41,8 @@ function GoogleMap(){
 		  	});		
 	 		this.map.setCenter(myLatLng);
 	 		//this.map.setZoom(12);		
- 		}
- 		this.oldPosition = position;
+	 		this.oldPosition = position;
+ 		}  		
  		//alert(distance(position.coords.latitude, position.coords.longitude, position.coords.latitude - 0.001, position.coords.longitude));
 		//mapBounds.extend(latitudeAndLongitudeOne);
 		//mapBounds.extend(latitudeAndLongitudeTwo);
