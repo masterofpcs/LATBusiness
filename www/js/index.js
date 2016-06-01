@@ -49,7 +49,11 @@ var app = {
         states[Connection.CELL]     = 'Cell generic connection';
         states[Connection.NONE]     = 'No network connection';
 
-        alert('Connection type: ' + states[networkState]);
+        // alert('Device Model: '    + device.model    + '<br />' +
+        //         'Device Cordova: '  + device.cordova  + '<br />' +
+        //         'Device Platform: ' + device.platform + '<br />' +
+        //         'Device UUID: '     + device.uuid     + '<br />' +
+        //         'Device Version: '  + device.version  + '<br />');
     },
 
     onDeviceReady: function() {
