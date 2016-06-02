@@ -2,6 +2,7 @@ function GoogleMap(){
  	this.map = null; 	
  	this.marker = null;
  	this.oldPosition = null;
+ 	this.rot = 0;
 
 	this.initialize = function(){
 		this.map = showMap();
@@ -46,28 +47,47 @@ function GoogleMap(){
   //           ' timestamp: ' + position.timestamp + '\n' );
 		//var mapBounds = new google.maps.LatLngBounds(); 		
 		var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
- 		if (this.marker != null)
- 			this.marker.setMap(null);
- 		// var image = {
-		    
-		 //    // This marker is 20 pixels wide by 32 pixels high.
-		 //    size: new google.maps.Size(20, 32),
-		 //    // The origin for this image is (0, 0).
-		 //    origin: new google.maps.Point(0, 0),
-		 //    // The anchor for this image is the base of the flagpole at (0, 32).
-		 //    anchor: new google.maps.Point(0, 32),
-		    
-		 //  };
-
- 		this.marker = new google.maps.Marker({
-    		position: myLatLng,
-    		map: this.map,    		
-    		title: 'Hello World!'
-	  	});
- 		this.map.setCenter(myLatLng);
+ 		
+ 		
  		if ((this.oldPosition == null)
- 				|| (distance(position.coords.latitude, position.coords.longitude, 
- 						this.oldPosition.coords.latitude, this.oldPosition.coords.longitude) > 0.050)) {
+ 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldPosition, this.marker.position)
+ 					> 10)) {
+ 			if (this.marker != null){
+	 			oldPos = this.marker.position;
+	 			this.marker.setMap(null);
+	 		}
+	 		else{
+	 			this.map.setZoom(17);
+	 		}
+
+	 		this.marker = new google.maps.Marker({
+	    		position: myLatLng,
+		  	});
+
+	 		
+	 		if (oldPos != null) { 	 			
+		  		this.rot = google.maps.geometry.spherical.computeHeading(oldPos, this.marker.position);		  		
+		  	}
+	 		this.marker = new google.maps.Marker({
+	    		position: myLatLng,    		
+	    		icon: {
+	        		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+	        		fillColor: '#00FFFF',
+				    fillOpacity: 0.8,
+				    strokeColor: '#0090FF',
+					scale: 4,
+					rotation: this.rot,
+				}
+		  	});
+
+		  	this.marker.setMap(this.map);
+	 		this.map.setCenter(myLatLng);
+	 		
+	 	}
+
+ 		if ((this.oldPosition == null)
+ 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldPosition, this.marker.position)
+ 					> 50)) {
 	 		//alert(document.getElementById("status_div").innerHTML);
 	 		document.getElementById("status_div").innerHTML = "Connecting ...";
 
@@ -117,7 +137,7 @@ function GoogleMap(){
 			// });
 			// alert(addpoint);
 
-	 		this.oldPosition = position;
+	 		this.oldPosition = this.marker.position;
  		}  		
  		//alert(distance(position.coords.latitude, position.coords.longitude, position.coords.latitude - 0.001, position.coords.longitude));
 		//mapBounds.extend(latitudeAndLongitudeOne);
