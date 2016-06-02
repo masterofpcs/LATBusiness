@@ -49,7 +49,10 @@ function GoogleMap(){
 		//var mapBounds = new google.maps.LatLngBounds(); 		
 		var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
  		
- 		
+ 		this.marker = new google.maps.Marker({
+	    	position: myLatLng,
+		});
+		
  		if ((this.oldDispPos == null)
  				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldDispPos, this.marker.position)
  					> 10)) {
@@ -58,11 +61,7 @@ function GoogleMap(){
 	 		}
 	 		else{
 	 			this.map.setZoom(17);
-	 		}
-
-	 		this.marker = new google.maps.Marker({
-	    		position: myLatLng,
-		  	});
+	 		}		
 
 	 		
 	 		if (this.oldDispPos != null) { 	 			
