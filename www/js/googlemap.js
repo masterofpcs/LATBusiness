@@ -2,6 +2,7 @@ function GoogleMap(){
  	this.map = null; 	
  	this.marker = null;
  	this.oldPosition = null;
+ 	this.oldDispPos = null;
  	this.rot = 0;
 
 	this.initialize = function(){
@@ -49,11 +50,10 @@ function GoogleMap(){
 		var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
  		
  		
- 		if ((this.oldPosition == null)
- 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldPosition, this.marker.position)
+ 		if ((this.oldDispPos == null)
+ 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldDispPos, this.marker.position)
  					> 10)) {
  			if (this.marker != null){
-	 			oldPos = this.marker.position;
 	 			this.marker.setMap(null);
 	 		}
 	 		else{
@@ -65,8 +65,8 @@ function GoogleMap(){
 		  	});
 
 	 		
-	 		if (oldPos != null) { 	 			
-		  		this.rot = google.maps.geometry.spherical.computeHeading(oldPos, this.marker.position);		  		
+	 		if (this.oldDispPos != null) { 	 			
+		  		this.rot = google.maps.geometry.spherical.computeHeading(this.oldDispPos, this.marker.position);		  		
 		  	}
 	 		this.marker = new google.maps.Marker({
 	    		position: myLatLng,    		
@@ -82,7 +82,7 @@ function GoogleMap(){
 
 		  	this.marker.setMap(this.map);
 	 		this.map.setCenter(myLatLng);
-	 		
+	 		this.oldDispPos = this.marker.position;
 	 	}
 
  		if ((this.oldPosition == null)
