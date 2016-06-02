@@ -11,12 +11,12 @@ function GoogleMap(){
  
 	var showMap = function(){
 		var mapOptions = {
-			zoom: 12,
+			zoom: 17,
 			//center: new google.maps.LatLng(-33, 151),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		} 
 		this.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 
-
+		this.marker = new google.maps.Marker();
 		return this.map;
 	}
 
@@ -47,40 +47,31 @@ function GoogleMap(){
   //           ' speed: ' + position.coords.speed + '\n' +
   //           ' timestamp: ' + position.timestamp + '\n' );
 		//var mapBounds = new google.maps.LatLngBounds(); 		
-		var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
- 		
- 		this.marker = new google.maps.Marker({
-	    	position: myLatLng,
-		});
-		
+		//var myLatLng = ;
+
+ 		this.marker.setPosition({lat: position.coords.latitude, lng: position.coords.longitude});	
  		if ((this.oldDispPos == null)
  				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldDispPos, this.marker.position)
  					> 10)) {
- 			if (this.marker != null){
-	 			this.marker.setMap(null);
-	 		}
-	 		else{
-	 			this.map.setZoom(17);
-	 		}		
-
-	 		
+ 			this.marker.setMap(null);
 	 		if (this.oldDispPos != null) { 	 			
-		  		this.rot = google.maps.geometry.spherical.computeHeading(this.oldDispPos, this.marker.position);		  		
+		  		this.rot = google.maps.geometry.spherical.computeHeading(this.oldDispPos, this.marker.position);
+		  		//alert(this.rot);
 		  	}
-	 		this.marker = new google.maps.Marker({
-	    		position: myLatLng,    		
-	    		icon: {
+		  	//alert("2");
+		  	var icn = {
 	        		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 	        		fillColor: '#00FFFF',
 				    fillOpacity: 0.8,
 				    strokeColor: '#0090FF',
 					scale: 4,
 					rotation: this.rot,
-				}
-		  	});
-
+				};
+		  	//alert("3");
+	 		this.marker.setIcon(icn);
+	 		//alert("4");
 		  	this.marker.setMap(this.map);
-	 		this.map.setCenter(myLatLng);
+	 		this.map.setCenter(this.marker.position);
 	 		this.oldDispPos = this.marker.position;
 	 	}
 
