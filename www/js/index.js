@@ -55,7 +55,34 @@ var app = {
         //         'Device UUID: '     + device.uuid     + '<br />' +
         //         'Device Version: '  + device.version  + '<br />');
     },
-    onDeviceReady: function() {        
+    onBatteryStatus: function(status) {
+            alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
+            document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
+            if(!status.isPlugged){
+                document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
+
+                var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid;
+                alert(addpoint);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                      if (xhttp.responseText == "1") {
+                        //alert("success");
+                        document.getElementById("status_div").innerHTML = "Charging data sent successfully";
+                      } 
+                      else {
+                        //alert("error");
+                        document.getElementById("status_div").innerHTML = "Error in storing data";
+                      }
+                    }
+                  };
+                  xhttp.open("GET", addpoint, true);
+                  xhttp.send();
+              }            
+        },
+        
+    onDeviceReady: function() {
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);        
         app.checkConnection();
         map = new GoogleMap();
         map.initialize();
