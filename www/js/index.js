@@ -56,13 +56,15 @@ var app = {
         //         'Device Version: '  + device.version  + '<br />');
     },
     onBatteryStatus: function(status) {
-            alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
-            document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
-            if(!status.isPlugged){
+            //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
+            //document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
+            
                 document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
-
-                var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid;
-                alert(addpoint);
+                if(!status.isPlugged)
+                    var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid;
+                else
+                    var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid;
+                //alert(addpoint);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -78,7 +80,7 @@ var app = {
                   };
                   xhttp.open("GET", addpoint, true);
                   xhttp.send();
-              }            
+              
         },
         
     onDeviceReady: function() {
