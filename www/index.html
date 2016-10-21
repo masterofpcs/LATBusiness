@@ -68,11 +68,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">LTS-Systems Ver 2.0</a>
+                <a class="navbar-brand" href="#">LTS-Systems Ver 3.0</a>
             </div>
     
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <!-- <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#">about</a></li>
@@ -85,7 +85,7 @@
                 </form>
 
                 
-            </div><!-- /.navbar-collapse -->
+            </div> -->
         </div>
     </nav> 
     <div class="container">    
@@ -99,14 +99,15 @@
     <script type="text/javascript" src="js/googlemap.js"></script>
     <script type="text/javascript" src="js/index.js"></script>    
     <script type="text/javascript">
-        app.initialize();
+        
         function onBatteryStatus(status) {
+            alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
             document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
             if(!status.isPlugged){
                 document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
 
                 var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid;
-                
+                alert(addpoint);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -124,8 +125,8 @@
                   xhttp.send();
               }            
         }
-        window.addEventListener("batterystatus", onBatteryStatus, false);
-
+        document.addEventListener("batterystatus", onBatteryStatus, false);
+        app.initialize();
     </script>
 </body>
 
