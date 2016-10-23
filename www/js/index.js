@@ -20,6 +20,7 @@ var app = {
     map : null,
     failureCount: 0,
     watchID: 0,
+    interval:0,
     // Application Constructor
     initialize: function() {
         
@@ -92,6 +93,7 @@ var app = {
               
         },
     restartLocation: function(){
+        clearInterval(app.interval);
         navigator.geolocation.clearWatch(app.watchID);        
         app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
         app.failureCount = 0;
@@ -118,11 +120,11 @@ var app = {
           
         navigator.geolocation.clearWatch(app.watchID);        
         if (app.failureCount >= 2){
-            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
-            setInterval(app.restartLocation, 10000)
+            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
+            app.interval = setInterval(app.restartLocation, 15000);
         }
         else{
-            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
         }
         
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
