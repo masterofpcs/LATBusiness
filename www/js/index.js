@@ -108,13 +108,16 @@ var app = {
     },
     onError: function(error){
         app.failureCount++;
-        document.getElementById("status_div").innerHTML = 'GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
+        document.getElementById("status_div").innerHTML = app.watchID + ' GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
           '  message: ' + error.message;
+          alert(app.watchID);
         navigator.geolocation.clearWatch(app.watchID);
+        alert(app.watchID);
         if (failureCount > 5)
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
         else
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+        alert(app.watchID);
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
         //location.reload();
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
