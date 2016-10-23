@@ -61,9 +61,9 @@ var app = {
             
                 document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
                 if(!status.isPlugged)
-                    var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid;
+                    var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid + "/" + device.level;
                 else
-                    var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid;
+                    var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid + "/" + device.level;
                 //alert(addpoint);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -90,25 +90,15 @@ var app = {
         map.initialize();
 
         //alert (map);
-        var watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+        var watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
         //app.receivedEvent('deviceready');
     },
     onSuccess : function(position){
-        // alert (' Lat: ' + position.coords.latitude + '\n' +
-        //     ' Long: ' + position.coords.longitude + '\n' +
-        //     ' alt: ' + position.coords.altitude + '\n' +
-        //     ' accuracy: ' + position.coords.accuracy + '\n' +
-        //     ' heading: ' + position.coords.heading + '\n' +
-        //     ' speed: ' + position.coords.speed + '\n' +
-        //     ' timestamp: ' + position.timestamp + '\n' );
-        // alert('test');
-        //alert (this.map);
-        //alert (app.map);
         addMarkersToMap(position);
     },
     onError: function(error){
-        alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
+        document.getElementById("status_div").innerHTML = 'GPS Erro code: '    + error.code 
+          '  message: ' + error.message;
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
