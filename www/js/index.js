@@ -19,6 +19,7 @@
 var app = {
     map : null,
     failureCount: 0,
+    watchID: 0,
     // Application Constructor
     initialize: function() {
         
@@ -57,9 +58,9 @@ var app = {
         //         'Device Version: '  + device.version  + '<br />');
     },
     onBackButton: function(status) {
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);
-        location.reload();
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        // window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        // location.reload();
+        // window.addEventListener("batterystatus", app.onBatteryStatus, false);
         return false;
     },
     onBatteryStatus: function(status) {
@@ -99,7 +100,7 @@ var app = {
         map.initialize();
 
         //alert (map);
-        var watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
+        app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
         //app.receivedEvent('deviceready');
     },
     onSuccess : function(position){
@@ -109,11 +110,11 @@ var app = {
         app.failureCount++;
         document.getElementById("status_div").innerHTML = 'GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
           '  message: ' + error.message;
-        //navigator.geolocation.clearWatch(watchID);
+        navigator.geolocation.clearWatch(app.watchID);
         if (failureCount > 5)
-            watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
+            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
         else
-            watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+            app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
         //location.reload();
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
