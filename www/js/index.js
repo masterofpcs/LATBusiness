@@ -65,9 +65,9 @@ var app = {
             
                 document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
                 if(!status.isPlugged)
-                    var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid + "/" + device.level;
+                    var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid + "/" + status.level;
                 else
-                    var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid + "/" + device.level;
+                    var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid + "/" + status.level;
                 //alert(addpoint);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -104,6 +104,7 @@ var app = {
     onError: function(error){
         document.getElementById("status_div").innerHTML = 'GPS Erro code: '    + error.code 
           '  message: ' + error.message;
+          location.reload();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
