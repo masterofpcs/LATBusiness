@@ -57,7 +57,9 @@ var app = {
         //         'Device Version: '  + device.version  + '<br />');
     },
     onBackButton: function(status) {
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
         location.reload();
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
         return false;
     },
     onBatteryStatus: function(status) {
@@ -97,7 +99,7 @@ var app = {
         map.initialize();
 
         //alert (map);
-        var watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+        var watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
         //app.receivedEvent('deviceready');
     },
     onSuccess : function(position){
