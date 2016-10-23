@@ -89,7 +89,7 @@ var app = {
         },
         
     onDeviceReady: function() {
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        document.addEventListener("batterystatus", app.onBatteryStatus, false);
         document.addEventListener("backbutton", app.onBackButton, false);
         app.checkConnection();
         map = new GoogleMap();
