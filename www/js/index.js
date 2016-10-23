@@ -104,6 +104,7 @@ var app = {
         //app.receivedEvent('deviceready');
     },
     onSuccess : function(position){
+        app.failureCount = 0;
         addMarkersToMap(position);
     },
     onError: function(error){
@@ -111,13 +112,14 @@ var app = {
         document.getElementById("status_div").innerHTML = app.watchID + ' GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
           '  message: ' + error.message;
           
-        navigator.geolocation.clearWatch(app.watchID);
-        
-        if (app.failureCount > 5)
+        navigator.geolocation.clearWatch(app.watchID);        
+        if (app.failureCount >= 10){
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
-        else
+        }
+        else{
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
-        alert(app.watchID);
+        }
+        
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
         //location.reload();
         //window.addEventListener("batterystatus", app.onBatteryStatus, false);
