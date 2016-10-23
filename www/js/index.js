@@ -55,6 +55,10 @@ var app = {
         //         'Device UUID: '     + device.uuid     + '<br />' +
         //         'Device Version: '  + device.version  + '<br />');
     },
+    onBackButton: function(status) {
+        location.reload();
+        return false;
+    },
     onBatteryStatus: function(status) {
             //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
             //document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
@@ -84,7 +88,8 @@ var app = {
         },
         
     onDeviceReady: function() {
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);        
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        window.addEventListener("backbutton", app.onBackButton, false);
         app.checkConnection();
         map = new GoogleMap();
         map.initialize();
