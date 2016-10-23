@@ -69,6 +69,7 @@ var app = {
                 else
                     var addpoint = "http://tracking.ltsegypt.com/charge/" + device.uuid + "/" + status.level;
                 //alert(addpoint);
+                //if(status.level < 100)
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -89,7 +90,7 @@ var app = {
         
     onDeviceReady: function() {
         window.addEventListener("batterystatus", app.onBatteryStatus, false);
-        window.addEventListener("backbutton", app.onBackButton, false);
+        document.addEventListener("backbutton", app.onBackButton, false);
         app.checkConnection();
         map = new GoogleMap();
         map.initialize();
