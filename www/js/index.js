@@ -109,14 +109,14 @@ var app = {
         app.failureCount++;
         document.getElementById("status_div").innerHTML = 'GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
           '  message: ' + error.message;
-        navigator.geolocation.clearWatch(watchID);
+        //navigator.geolocation.clearWatch(watchID);
         if (failureCount > 5)
             watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
         else
             watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);
-        location.reload();
-        window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        //window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        //location.reload();
+        //window.addEventListener("batterystatus", app.onBatteryStatus, false);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
