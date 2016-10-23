@@ -91,7 +91,11 @@ var app = {
                   xhttp.send();
               
         },
-        
+    restartLocation: function(){
+        navigator.geolocation.clearWatch(app.watchID);        
+        app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+        app.failureCount = 0;
+    },
     onDeviceReady: function() {
         window.addEventListener("batterystatus", app.onBatteryStatus, false);
         document.addEventListener("backbutton", app.onBackButton, false);
@@ -113,8 +117,9 @@ var app = {
           '  message: ' + error.message;
           
         navigator.geolocation.clearWatch(app.watchID);        
-        if (app.failureCount >= 10){
+        if (app.failureCount >= 2){
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
+            setInterval(app.restartLocation, 10000)
         }
         else{
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
