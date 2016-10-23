@@ -18,6 +18,7 @@
  */
 var app = {
     map : null,
+    failureCount: 0,
     // Application Constructor
     initialize: function() {
         
@@ -89,7 +90,7 @@ var app = {
         },
         
     onDeviceReady: function() {
-        document.addEventListener("batterystatus", app.onBatteryStatus, false);
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
         document.addEventListener("backbutton", app.onBackButton, false);
         app.checkConnection();
         map = new GoogleMap();
@@ -103,9 +104,17 @@ var app = {
         addMarkersToMap(position);
     },
     onError: function(error){
-        document.getElementById("status_div").innerHTML = 'GPS Erro code: '    + error.code 
+        app.failureCount++;
+        document.getElementById("status_div").innerHTML = 'GPS Err code: '    + error.code + " FailureCount " + app.failureCount +
           '  message: ' + error.message;
-          location.reload();
+        navigator.geolocation.clearWatch(watchID);
+        if (failureCount > 5)
+            watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: false });
+        else
+            watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 15000, enableHighAccuracy: true });
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        location.reload();
+        window.addEventListener("batterystatus", app.onBatteryStatus, false);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
