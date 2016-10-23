@@ -119,9 +119,9 @@ var app = {
           '  message: ' + error.message;
           
         navigator.geolocation.clearWatch(app.watchID);        
-        if (app.failureCount >= 2){
+        if (app.failureCount >= 10){
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
-            app.interval = setInterval(app.restartLocation, 15000);
+            app.interval = setInterval(app.restartLocation, 600000);
         }
         else{
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
