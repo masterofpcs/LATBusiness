@@ -126,10 +126,13 @@ var app = {
         else{
             app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
         }
+
         
-        //window.addEventListener("batterystatus", app.onBatteryStatus, false);
-        //location.reload();
-        //window.addEventListener("batterystatus", app.onBatteryStatus, false);
+        var addpoint = "http://tracking.ltsegypt.com/gpsfail/" + device.uuid + "/" + app.failureCount;
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.open("GET", addpoint, true);
+        xhttp.send();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
