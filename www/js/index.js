@@ -17,7 +17,7 @@
  * under the License.
  */
 var app = {
-    map : null,
+    //map : null,
     failureCount: 0,
     watchID: 0,
     interval:0,
@@ -68,7 +68,7 @@ var app = {
             //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
             //document.getElementById("status_div").innerHTML = "Level: " + status.level + " isPlugged: " + status.isPlugged;
             
-                document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
+                //document.getElementById("status_div").innerHTML = "Charger Unplugged ...";
                 if(!status.isPlugged)
                     var addpoint = "http://tracking.ltsegypt.com/discharge/" + device.uuid + "/" + status.level;
                 else
@@ -77,16 +77,16 @@ var app = {
                 //if(status.level < 100)
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
-                    if (xhttp.readyState == 4 && xhttp.status == 200) {
-                      if (xhttp.responseText == "1") {
-                        //alert("success");
-                        document.getElementById("status_div").innerHTML = "Charging data sent successfully";
-                      } 
-                      else {
-                        //alert("error");
-                        document.getElementById("status_div").innerHTML = "Error in storing data";
-                      }
-                    }
+                    // if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    //   if (xhttp.responseText == "1") {
+                    //     //alert("success");
+                    //     document.getElementById("status_div").innerHTML = "Charging data sent successfully";
+                    //   } 
+                    //   else {
+                    //     //alert("error");
+                    //     document.getElementById("status_div").innerHTML = "Error in storing data";
+                    //   }
+                    // }
                   };
                   xhttp.open("GET", addpoint, true);
                   xhttp.send();
@@ -102,8 +102,8 @@ var app = {
         window.addEventListener("batterystatus", app.onBatteryStatus, false);
         document.addEventListener("backbutton", app.onBackButton, false);
         app.checkConnection();
-        map = new GoogleMap();
-        map.initialize();
+        //map = new GoogleMap();
+        //map.initialize();
 
         //alert (map);
         app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });

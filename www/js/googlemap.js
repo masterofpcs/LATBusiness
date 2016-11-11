@@ -1,23 +1,23 @@
 function GoogleMap(){
- 	this.map = null; 	
- 	this.marker = null;
+ 	// this.map = null; 	
+ 	// this.marker = null;
  	this.oldPosition = null;
- 	this.oldDispPos = null;
- 	this.rot = 0;
+ 	// this.oldDispPos = null;
+ 	// this.rot = 0;
 
 	this.initialize = function(){
-		this.map = showMap();
+		// this.map = showMap();
 	}
  
 	var showMap = function(){
-		var mapOptions = {
-			zoom: 17,
-			//center: new google.maps.LatLng(-33, 151),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		} 
-		this.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 
-		this.marker = new google.maps.Marker();
-		return this.map;
+		// var mapOptions = {
+		// 	zoom: 17,
+		// 	//center: new google.maps.LatLng(-33, 151),
+		// 	mapTypeId: google.maps.MapTypeId.ROADMAP
+		// } 
+		// this.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 
+		// this.marker = new google.maps.Marker();
+		// return this.map;
 	}
 
 	pad = function(d) {
@@ -37,52 +37,41 @@ function GoogleMap(){
 
 		var formattedDate = year + "-" + pad(month) + "-" + pad(day)
 				+ " " + pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
-		//alert (formattedDate);
-		//alert(this.map);
-		// alert (' Lat: ' + position.coords.latitude + '\n' +
-  //           ' Long: ' + position.coords.longitude + '\n' +
-  //           ' alt: ' + position.coords.altitude + '\n' +
-  //           ' accuracy: ' + position.coords.accuracy + '\n' +
-  //           ' heading: ' + position.coords.heading + '\n' +
-  //           ' speed: ' + position.coords.speed + '\n' +
-  //           ' timestamp: ' + position.timestamp + '\n' );
-		//var mapBounds = new google.maps.LatLngBounds(); 		
-		//var myLatLng = ;
 
- 		this.marker.setPosition({lat: position.coords.latitude, lng: position.coords.longitude});	
- 		if ((this.oldDispPos == null)
- 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldDispPos, this.marker.position)
- 					> 10)) {
- 			this.marker.setMap(null);
-	 		if (this.oldDispPos != null) { 	 			
-		  		this.rot = google.maps.geometry.spherical.computeHeading(this.oldDispPos, this.marker.position);
-		  		//alert(this.rot);
-		  	}
-		  	//alert("2");
-		  	var icn = {
-	        		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-	        		fillColor: '#00FFFF',
-				    fillOpacity: 0.8,
-				    strokeColor: '#0090FF',
-					scale: 4,
-					rotation: this.rot,
-				};
-		  	//alert("3");
-	 		this.marker.setIcon(icn);
-	 		//alert("4");
-		  	this.marker.setMap(this.map);
-	 		this.map.setCenter(this.marker.position);
-	 		this.oldDispPos = this.marker.position;
-	 	}
+ 		// this.marker.setPosition({lat: position.coords.latitude, lng: position.coords.longitude});	
+ 		// if ((this.oldDispPos == null)
+ 		// 		|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldDispPos, this.marker.position)
+ 		// 			> 10)) {
+ 		// 	this.marker.setMap(null);
+	 	// 	if (this.oldDispPos != null) { 	 			
+		 //  		this.rot = google.maps.geometry.spherical.computeHeading(this.oldDispPos, this.marker.position);
+		 //  		//alert(this.rot);
+		 //  	}
+		 //  	//alert("2");
+		 //  	var icn = {
+	  //       		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+	  //       		fillColor: '#00FFFF',
+			// 	    fillOpacity: 0.8,
+			// 	    strokeColor: '#0090FF',
+			// 		scale: 4,
+			// 		rotation: this.rot,
+			// 	};
+		 //  	//alert("3");
+	 	// 	this.marker.setIcon(icn);
+	 	// 	//alert("4");
+		 //  	this.marker.setMap(this.map);
+	 	// 	this.map.setCenter(this.marker.position);
+	 	// 	this.oldDispPos = this.marker.position;
+	 	// }
 
  		if ((this.oldPosition == null)
- 				|| (google.maps.geometry.spherical.computeDistanceBetween(this.oldPosition, this.marker.position)
- 					> 50)) {
+ 				|| (distance(this.oldPosition.coords.latitude, this.oldPosition.coords.longitude, position.coords.latitude, position.coords.longitude))
+ 					> 0.05)) {
 	 		//alert(document.getElementById("status_div").innerHTML);
 	 		document.getElementById("status_div").innerHTML = "Connecting ...";
 
 	 		var addpoint = "http://tracking.ltsegypt.com/addpoint/" + device.uuid + "/" + 
-	 				 formattedDate + "/" +  position.coords.longitude + "/" + position.coords.latitude + "/" +
+	 				 formattedDate + "/" +  position.coords.latitude + "/" + position.coords.longitude + "/" +
 	 				 position.coords.altitude + "/" +  position.coords.speed + "/" + position.coords.accuracy;
 	 		
 	 		var xhttp = new XMLHttpRequest();
@@ -99,35 +88,8 @@ function GoogleMap(){
 			    }
 			  };
 			  xhttp.open("GET", addpoint, true);
-			  xhttp.send();   
-	 	// 	$.ajax({
-	 	// 		url: "addpoint", 
-	 	// 		success: function(result){
-   //          		alert(result);
-   //      		}
-   //      	});
-   //      	alert(addpoint);
-	 	// 	$.ajax({
-			// 	type: "GET",
-			// 	url: addpoint,				 
-			// 	 success: function(data){
-			// 	 	alert(data);
-			// 	 	if(data=="1"){
-			// 	 		alert("inserted");
-			// 	 	}
-			// 	 	else if(data=="0"){
-			// 	 		alert("error");
-			// 	 	}
-			// 	 },
-			// 	 error: function () {
-			// 	 	// body...
-			// 	 	alert("error")
-			// 	 }
-
-			// });
-			// alert(addpoint);
-
-	 		this.oldPosition = this.marker.position;
+			  xhttp.send();
+	 		this.oldPosition = position;
  		}  		
  		//alert(distance(position.coords.latitude, position.coords.longitude, position.coords.latitude - 0.001, position.coords.longitude));
 		//mapBounds.extend(latitudeAndLongitudeOne);
