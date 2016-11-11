@@ -17,7 +17,7 @@
  * under the License.
  */
 var app = {
-    //map : null,
+    map : null,
     failureCount: 0,
     watchID: 0,
     interval:0,
@@ -101,9 +101,9 @@ var app = {
     onDeviceReady: function() {
         window.addEventListener("batterystatus", app.onBatteryStatus, false);
         document.addEventListener("backbutton", app.onBackButton, false);
-        app.checkConnection();
-        //map = new GoogleMap();
-        //map.initialize();
+        //app.checkConnection();
+        map = new GoogleMap();
+        map.initialize();
 
         //alert (map);
         app.watchID = navigator.geolocation.watchPosition(app.onSuccess, app.onError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: true });
@@ -111,6 +111,7 @@ var app = {
     },
     onSuccess : function(position){
         app.failureCount = 0;
+
         addMarkersToMap(position);
     },
     onError: function(error){

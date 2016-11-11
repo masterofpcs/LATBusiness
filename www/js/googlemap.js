@@ -25,6 +25,7 @@ function GoogleMap(){
 	}
 	
 	addMarkersToMap = function(position){
+		
 		var d = new Date(position.timestamp);
 		var hours = d.getHours(),
 		    minutes = d.getMinutes(),
@@ -58,14 +59,14 @@ function GoogleMap(){
 			// 	};
 		 //  	//alert("3");
 	 	// 	this.marker.setIcon(icn);
-	 	// 	//alert("4");
+	 	
 		 //  	this.marker.setMap(this.map);
 	 	// 	this.map.setCenter(this.marker.position);
 	 	// 	this.oldDispPos = this.marker.position;
 	 	// }
 
  		if ((this.oldPosition == null)
- 				|| (distance(this.oldPosition.coords.latitude, this.oldPosition.coords.longitude, position.coords.latitude, position.coords.longitude))
+ 				|| ((distance(this.oldPosition.coords.latitude, this.oldPosition.coords.longitude, position.coords.latitude, position.coords.longitude))
  					> 0.05)) {
 	 		//alert(document.getElementById("status_div").innerHTML);
 	 		document.getElementById("status_div").innerHTML = "Connecting ...";
